@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import com.iu.countries.CountriesDAO;
+import com.iu.countries.CountriesDTO;
+import com.iu.countries.CountriesView;
 import com.iu.regions.RegionsDAO;
 import com.iu.regions.RegionsDTO;
 import com.iu.regions.RegionsView;
@@ -13,27 +15,35 @@ public class TestMain {
 
 	public static void main(String[] args) {	
 		RegionsDAO dao = new RegionsDAO();
-		CountriesDAO conDao = new CountriesDAO();
 		RegionsView view = new RegionsView();
 		RegionsDTO dto = new RegionsDTO();
-		try {
-			ArrayList<RegionsDTO> ar = dao.getList();
-			view.view(ar);
-			
-//			dto = dao.getDetail(4);
-//			view.view(dto);
-//			dao.getDetail(4);
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		CountriesDAO conDao = new CountriesDAO();
+		CountriesDTO dto2 = new CountriesDTO();
+		CountriesView view2 = new CountriesView();
 //		try {
-////			conDao.getList();
-//			conDao.getDetail("BE");
-//		} catch (Exception e) {
+//			ArrayList<RegionsDTO> ar = dao.getList();
+//			view.view(ar);
+//			
+////			dto = dao.getDetail(4);
+////			view.view(dto);
+////			dao.getDetail(4);
+//		} catch (Exception e1) {
 //			// TODO Auto-generated catch block
-//			e.printStackTrace();
+//			e1.printStackTrace();
 //		}
+		
+		try {
+			ArrayList<CountriesDTO> ar = conDao.getList();
+			view2.view(ar);		
+//			dto2 = conDao.getDetail("EG");
+//			view2.view(dto2);
+			
+//			conDao.getList();
+//			conDao.getDetail("BE");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
 		

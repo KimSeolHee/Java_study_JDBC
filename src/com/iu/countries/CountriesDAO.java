@@ -3,12 +3,14 @@ package com.iu.countries;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import com.iu.util.DBConnector;
 
 public class CountriesDAO {
 	
-	public void getDetail(String Country_id) throws Exception {
+	public CountriesDTO getDetail(String Country_id) throws Exception {
+		CountriesDTO dto = null;
 		
 		Connection con = DBConnector.getConnection();
 		
@@ -21,17 +23,18 @@ public class CountriesDAO {
 		ResultSet rs = st.executeQuery();
 		
 		if(rs.next()) {
-			String id = rs.getString("COUNTRY_ID");
-			String name = rs.getString("COUNTRY_name");
-			System.out.println(id);
-			System.out.println(name);
+			dto = new CountriesDTO();
+			dto.setCountry_id(rs.getString("country_id"));
+			dto.setCountry_name(rs.getString("country_name"));
+			dto.setRegion_id(rs.getInt("region_id"));
 		}
 		DBConnector.disConnect(rs, st, con);
+		return dto;
 	}
 	
 	
-	public void getList() throws Exception {			
-		CountriesDTO dto = null;
+	public ArrayList<CountriesDTO> getList() throws Exception {
+		ArrayList<CountriesDTO> ar = new ArrayList<>();
 		//1. DB연결 (로그인 및 연결), 객체없이 클래스메서드로 작성(static으로 선언됨)
 		//2. Query문 작성\
 		//3. Query문 미리 전송(준비를 미리 하는 것)
@@ -49,14 +52,17 @@ public class CountriesDAO {
 		ResultSet rs = st.executeQuery();
 		
 		while(rs.next()) {
-			dto = new CountriesDTO();
+			CountriesDTO dto = new CountriesDTO();
 			dto.setCountry_id(rs.getString("country_id"));
 			dto.setCountry_name(rs.getString("country_name"));
-			dto.setRegion_id(rs.getInt("region_id"));
+			dto.setRegion_id(rs.getInt("region_id"));		
+			
+			ar.add(dto);
 		}
 		
 		DBConnector.disConnect(rs, st, con);
 		
+		return ar;
 	}
 
 }
