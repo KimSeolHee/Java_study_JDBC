@@ -1,9 +1,12 @@
 package com.iu.test;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import com.iu.countries.CountriesDAO;
 import com.iu.regions.RegionsDAO;
+import com.iu.regions.RegionsDTO;
+import com.iu.regions.RegionsView;
 import com.iu.util.DBConnector;
 
 public class TestMain {
@@ -11,18 +14,26 @@ public class TestMain {
 	public static void main(String[] args) {	
 		RegionsDAO dao = new RegionsDAO();
 		CountriesDAO conDao = new CountriesDAO();
-//		try {
-//			dao.getList();
-//		} catch (Exception e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
+		RegionsView view = new RegionsView();
+		RegionsDTO dto = new RegionsDTO();
 		try {
-			conDao.getList();
-		} catch (Exception e) {
+			ArrayList<RegionsDTO> ar = dao.getList();
+			view.view(ar);
+			
+//			dto = dao.getDetail(4);
+//			view.view(dto);
+//			dao.getDetail(4);
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
+//		try {
+////			conDao.getList();
+//			conDao.getDetail("BE");
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		
 		

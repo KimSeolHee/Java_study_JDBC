@@ -8,7 +8,30 @@ import com.iu.util.DBConnector;
 
 public class CountriesDAO {
 	
-	public void getList() throws Exception {
+	public void getDetail(String Country_id) throws Exception {
+		
+		Connection con = DBConnector.getConnection();
+		
+		String sql = "SELECT * FROM COUNTRIES WHERE COUNTRY_ID = ?";
+		
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		st.setString(1, Country_id);
+		
+		ResultSet rs = st.executeQuery();
+		
+		if(rs.next()) {
+			String id = rs.getString("COUNTRY_ID");
+			String name = rs.getString("COUNTRY_name");
+			System.out.println(id);
+			System.out.println(name);
+		}
+		DBConnector.disConnect(rs, st, con);
+	}
+	
+	
+	public void getList() throws Exception {			
+		CountriesDTO dto = null;
 		//1. DB연결 (로그인 및 연결), 객체없이 클래스메서드로 작성(static으로 선언됨)
 		//2. Query문 작성\
 		//3. Query문 미리 전송(준비를 미리 하는 것)
@@ -26,18 +49,13 @@ public class CountriesDAO {
 		ResultSet rs = st.executeQuery();
 		
 		while(rs.next()) {
-			String id = rs.getString("country_id");
-			String name = rs.getString("country_name");
-			int regionId = rs.getInt("region_id");
-			
-			System.out.print(id+"\t");
-			System.out.print(name+"\t");
-			System.out.println(regionId);
+			dto = new CountriesDTO();
+			dto.setCountry_id(rs.getString("country_id"));
+			dto.setCountry_name(rs.getString("country_name"));
+			dto.setRegion_id(rs.getInt("region_id"));
 		}
 		
-		
-		
-		
+		DBConnector.disConnect(rs, st, con);
 		
 	}
 
