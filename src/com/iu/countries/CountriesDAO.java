@@ -9,6 +9,19 @@ import com.iu.util.DBConnector;
 
 public class CountriesDAO {
 	
+	public int setCountries(CountriesDTO dto) throws Exception {
+		//db연결-sql문작성-미리준비-?처리 - 결과저장 - 자원해제
+		Connection con = DBConnector.getConnection();
+		String sql = "INSERT INTO COUNTRIES VALUES(?,?,?)";
+		PreparedStatement st = con.prepareStatement(sql);
+		st.setString(1, dto.getCountry_id());
+		st.setString(2, dto.getCountry_name());
+		st.setInt(3, dto.getRegion_id());
+		int result = st.executeUpdate();
+		DBConnector.disConnect(st, con);
+		return result;
+	}
+	
 	public CountriesDTO getDetail(String Country_id) throws Exception {
 		CountriesDTO dto = null;
 		
@@ -33,7 +46,7 @@ public class CountriesDAO {
 	}
 	
 	
-	public ArrayList<CountriesDTO> getList() throws Exception {
+	public ArrayList<CountriesDTO> getList(String search) throws Exception {
 		ArrayList<CountriesDTO> ar = new ArrayList<>();
 		//1. DB연결 (로그인 및 연결), 객체없이 클래스메서드로 작성(static으로 선언됨)
 		//2. Query문 작성\
@@ -45,9 +58,14 @@ public class CountriesDAO {
 		
 		Connection con = DBConnector.getConnection();
 		
-		String sql = "SELECT * FROM COUNTRIES";
+		//%?%값세팅하기.
+		//st.setString(1, "%"+search+"%"); and '%'||?||'%' and 실행할때 보내기전에 search = "%"+search+"%" and getter활용 방법은 다양! 
+		String sql = "SELECT * FROM COUNTRIES WHERE COUNTRY_NAME LIKE '%'||?||'%'";
 		
 		PreparedStatement st = con.prepareStatement(sql);
+		
+		//? 있으면 값 세팅
+		st.setString(1, search);
 		
 		ResultSet rs = st.executeQuery();
 		
