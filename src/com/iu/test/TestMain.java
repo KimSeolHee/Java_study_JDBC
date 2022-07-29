@@ -32,6 +32,7 @@ public class TestMain {
 		
 		EmployeesDAO2 dao2 = new EmployeesDAO2();
 		
+		
 //		try {
 //			dao2.getSalaryInfo();
 ////			dao2 = dao2.getSalaryInfo();
